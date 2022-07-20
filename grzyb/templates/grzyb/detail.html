@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<style type="text/css">
+    .card{
+        max-width: 700px;
+    }
+    .container{
+        padding: 20px
+    }
+     .containers{
+        position: relative;
+
+    }
+</style>
+
+<div class = "container">
+    <div class = "row">
+
+        <div class = "card m-auto">
+            <img class = "card-img-top" src = "{{blog_post.image.url}}">
+            <div class = "card-body my-2">
+              <div class="span3 well">
+                <a href="#aboutModal" data-toggle="modal" data-target="#myModal"><img src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRbezqZpEuwGSvitKy3wrwnth5kysKdRqBW54cAszm_wiutku3R" name="aboutme" width="50" height="50" class="img-circle">Joe Sixpack
+                </a>
+              </div>
+                <h2 class = "card-title">{{blog_post.title}}</h2>
+                <p class = "card-text">{{blog_post.body|safe}}</p>
+
+            </div>
+
+                <p class="font-weight-bold">
+          &nbsp&nbsp<a class = "p-2 text-dark" href = "blog/like">Like</a>  &nbsp<i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+          &nbsp{{ blog_post.likes }}&nbsp&nbsp&nbsp&nbsp
+          <a class = "p-2 text-dark" href = "blog/dislike">Dislike</a>&nbsp <i onclick="myFunction(this)" class="fa fa-thumbs-down"></i>
+          &nbsp{{ blog_post.dislikes }}&nbsp
+        </p>
+
+            <div class = "card-footer text-muted">
+              Ostatnia aktualizacja: {{blog_post.date_updated}} przez: {{blog_post.author.username}}
+              {% if blog_post.author == user %}
+                <a class = "p-2 text-dark" href = "editblog">Edytuj</a>&nbsp<i class='fas fa-radiation-alt' style='font-size:24px'></i>
+                <a class = "p-2 text-dark" href = "deleteblog">Usuń</a>&nbsp<i class='fas fa-radiation-alt' style='font-size:24px'></i>
+
+              {% endif %}
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class = "col-lg-8 offset-lg-2">
+  <div class = "containers">
+    <h1>Komentarze</h1>
+    {% for comment in comments %}
+      <div class="comments" style="padding: 10px;">
+        <p class="font-weight-bold">
+          {{ comment.author.username }}
+          <span class=" text-muted font-weight-normal">    
+            {{ comment.created_on }}   
+          </span>
+        </p>
+        {{ comment.body | linebreaks }}
+        <p class="font-weight-bold">
+          <a class = "p-2 text-dark" href = "add/like/{{comment.id}}">Like</a>  &nbsp<i onclick="myFunction(this)" class="fa fa-thumbs-up"></i>
+          &nbsp{{ comment.likes }}&nbsp&nbsp&nbsp&nbsp
+          <a class = "p-2 text-dark" href = "add/dislike/{{comment.id}}">Dislike</a>&nbsp <i onclick="myFunction(this)" class="fa fa-thumbs-down"></i>
+          &nbsp{{ comment.dislikes }}&nbsp
+          {% if comment.author == user %}
+            <a class = "p-2 text-dark" href = "deletecom/{{comment.id}}">Usuń</a>&nbsp<i class='fas fa-radiation-alt' style='font-size:24px'></i>
+          {% endif %}
+        </p>
+      </div>
+    {% endfor %}
+    <div class="card-body">
+              
+      {% if request.user.is_authenticated %}
+        <h3>Napisz Komentarz</h3>
+        <form method="post" style="margin-top: 1.3em;">
+
+          <div class = "form-group">
+          <textarea class = "form-control" rows = "10" type="text" name = "body" id = "id_body"  placeholder = "treść komentarza"   required></textarea>
+                
+          {% csrf_token %}
+          <button type="submit" class="btn btn-primary  btn-lg">Zatwierdź</button>
+        </form>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<style type="text/css">
+    .create-form{
+        width: 100%;
+        max-width: 100%;
+        padding: 15px;
+        margin: auto;
+    }
+    .submit-button{
+        max-width: 200px;
+    }
+</style>
+
+<div class = "container">
+    <div class = "row">
+        <div class = "col-lg-7 offset-lg-1">
+            <form class = "create-form" method = "post" enctype = "multipart/form-data"> {% csrf_token %}
+                <div class = "form-group">
+                    <lavel for = "id_title">Tytuł</lavel>
+                    <input class = "form-control" type="text" name = "title" id = "it_title" placeholder = "tytuł" value="{{form.initial.title}}" required autofocus>
+                </div>
+                <div class = "form-group">
+                    <lavel for = "id_body">zawartość </lavel>
+                    <textarea class = "form-control" rows = "10" type="text" name = "body" id = "id_body"  placeholder = "Ten post jest na temat"   required autofocus value={{form.body}} >:]</textarea>
+                </div>
+                <div class = "form-group">
+                    <label for = "id_image"> Obrazek</label>
+                    <input type="file" name = "image" id = "id_image" accept = "image/*"  required>
+                </div>
+                <button class = "submit-button btn btn-lg  btn-primary btn-block" type = "submit">Zatwierdź</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

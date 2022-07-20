@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style type="text/css">
+.Rejestracja-Form {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+.Rejestracja-Form .form-control {
+  position: relative;
+  box-sizing: border-box;
+  height: auto;
+  padding: 10px;
+  font-size: 16px;
+}
+.Rejestracja-Form .form-control:focus {
+  z-index: 2;
+}
+.Rejestracja-Form input[type="email"] {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.Rejestracja-Form input[type="username"] {
+  margin-bottom: 10px;
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.Rejestracja-Form input[type="password"] {
+  margin-bottom: -1px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+.h3{
+    text-align: center;
+}
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  
+}
+</style>
+
+<form class="Rejestracja-Form" method="post">{% csrf_token %}
+    <img class="center" src="{% static "logo.jpg" %}"  alt="logo" width="100" height="100"> 
+    <h1 class="h3 mb-3 font-weight-normal">Zarejestruj się</h1>
+
+    <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
+    <input type="username" name="username" id="inputUsername" class="form-control" placeholder="Username" required >
+
+    <input type="password" id="inputPassword1" name = "password1" class="form-control" placeholder="haslo" required>
+    <input type="password" id="inputPassword2" name = "password2" class="form-control" placeholder="Potwierdz haslo" required>
+    {% for field in registration_form %}
+        {% for error in  field.errors %}
+            <small style="color: red;">{{error}}</small>
+        {% endfor %}
+    {% endfor %}
+
+    {% if registration_form.non_field_errors %}
+        <div style = "color:red;">
+            <p>{{registration_form.non_field_errors}}</p>
+        </div>
+    {% endif %}
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Zarejestruj się</button>
+</form>
+
+
+
+{% endblock content %}

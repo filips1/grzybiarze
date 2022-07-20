@@ -1,0 +1,49 @@
+<style type="text/css">
+    .card{
+        max-width: 700px;
+        width: 100%
+    }
+    .card-body{
+        padding: 20px;
+    }
+    .img{
+        max-width: 700px;
+        width: 100%
+    }
+</style>
+{% if blog_post %}
+<div class="container">
+    <div class = "row">
+
+        <div class="card m-auto">
+            <a href = "{% url 'grzyb:detail' post.slug %}">
+                <img class = "card-img-top" src = "{{blog_post.image.url}}">
+            </a>
+
+            <div class = "card-body mt-2 mb-2">
+                <a href = "{% url 'grzyb:detail' post.slug %}">
+                    <h2 class = "card-title">{{blog_post.title}}</h2>
+                </a>
+                <p class="card-text">{{blog_post.body|safe|truncatechars:180}}</p>
+            </div>
+            <div class = "card-footer text-muted">
+                Zaktualizowane w {{blog_post.date_updated}} przez {{blog_post.author.username}}
+            </div>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="container">
+    <div class = "row">
+
+        <div class="card m-auto">
+            <div class = "card-body mt-2 mb-2">
+                <h2 class ="card-itle">
+                    Brak Rezultatów
+                </h2>
+                <p class="card-text">Nie ma postów></p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
